@@ -46,20 +46,25 @@ node('maven-21 || (java&&linux)') {
             }
 
             // GitHub permissions
-            stage ('Update github permissions') {
+            stage('Update GitHub Permissions') {
+                // Check if there are changes in the repository
                 def changedLines = sh(script: 'git diff --name-only HEAD~1', returnStdout: true).trim()
 
                 if (dryRun) {
                     try {
-                        //withCredentials([usernamePassword(credentialsId: 'Alaurant', passwordVariable: 'GITHUB_PASSWORD', usernameVariable: 'Alaurant')]) {
-                            echo 'Dry run - detecting changes: ' + changedLines
-                        //}
-                    
-                    }catch(ignored){
-
-                    }throw ignored
-                else{
-                    // in real situation, not for now
+                        // Print out the changes in the dry run
+                        echo 'Dry run - detecting changes: ' + changedLines
+                        if (changedLines == '') {
+                            echo 'No changes detected'
+                        }
+                    } catch (Exception ignored) {
+                        // Record the error and throw it
+                        echo "Error during dry run: ${ignored.getMessage()}"
+                        throw ignored
+                    }
+                } else {
+                    // in real run, alert if in it
+                    echo 'In real situation, alerting'
                 }
             }
 
