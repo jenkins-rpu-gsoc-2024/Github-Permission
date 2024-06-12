@@ -53,7 +53,7 @@ node('maven-21 || (java&&linux)') {
                 if (dryRun) {
                     try {
                         // Print out the changes in the dry run
-                        echo 'Dry run - detecting changes: ' + changedLines
+                        echo "Changes detected in the dry run: ${changedLines}"
                         if (changedLines == '') {
                             echo 'No changes detected'
                         }
