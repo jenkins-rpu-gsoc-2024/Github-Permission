@@ -7,19 +7,26 @@ pipeline {
                 echo 'Starting the pipeline...'
             }
         }
-        stage('Check for Changes') {
+        stage('Check for Team Changes') {
             steps {
                 script {
-                    // fetch the changes between the last and the current commit
-                    def gitDiff = sh(script: "git diff HEAD~1 --unified=0", returnStdout: true).trim()
-                    echo "Changes detected:\n${gitDiff}"
+                    // Fetch the changes with details
+                    def gitDiffDetails = sh(script: "git diff HEAD~1 -- permissions/*.yaml", returnStdout: true).trim()
+                    echo "Detailed diff:\n${gitDiffDetails}"
 
-                    // check if there are any changes
-                    if (gitDiff == '') {
-                        echo 'No changes detected between the last and the current commit.'
+                    // Use a regex to find files with 'github_team' changes
+                    def pattern = ~/permissions\/(\S+\.yaml)(?=[\s\S]*?\bgithub_team\b)/
+                    def matcher = gitDiffDetails =~ pattern
+                    if (matcher) {
+                        echo 'Changes related to github_team detected. Processing...'
+                        matcher.each {
+                            def fileName = it[1]
+                            echo "Updating GitHub team for file: ${fileName}"
+                            // Pass the filename to the Java/Groovy program
+                            sh "java -jar /need/to/instead.jar '${fileName}'"
+                        }
                     } else {
-                        // other case
-                        echo 'Analyzing changes...'
+                        echo 'No changes to github_team detected in YAML files.'
                     }
                 }
             }

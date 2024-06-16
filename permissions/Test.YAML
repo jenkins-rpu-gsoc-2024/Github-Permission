@@ -10,4 +10,4 @@ cd:
   enabled: true
 developers: &team
   - "Alaurant"
-github_team: *team
+github_team: "Test team"
