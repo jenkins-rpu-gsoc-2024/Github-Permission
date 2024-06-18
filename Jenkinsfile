@@ -10,22 +10,22 @@ pipeline {
         stage('Check for Team Changes') {
             steps {
                 script {
-                    // Fetch the changes with details
-                    def gitDiffDetails = sh(script: "git diff HEAD~1 -- permissions/*.yaml", returnStdout: true).trim()
-
-                    // Use a regex to find files with 'github_team' changes
-                    def pattern = ~/permissions\/(\S+\.yaml)(?=[\s\S]*?\bgithub_team\b)/
-                    def matcher = gitDiffDetails =~ pattern
-                    if (matcher) {
-                        echo 'Changes related to github_team detected. Processing...'
-                        matcher.each {
-                            def fileName = it[1]
-                            echo "Updating GitHub team for file: ${fileName}"
-                            // Pass the filename to the Java/Groovy program
-                            sh "java -jar target/githubpermission.jar '${fileName}'"
+                    // detect changes in permissions/*.yaml
+                    def gitDiffFiles = sh(script: "git diff --name-only HEAD~1 permissions/*.yaml", returnStdout: true).trim()
+                    if (gitDiffFiles) {
+                        echo 'Changes in permissions/*.yaml detected.'
+                        // further check whether involves github_team
+                        gitDiffFiles.tokenize('\n').each { file ->
+                            def gitDiffDetails = sh(script: "git diff HEAD~1 -- '${file}'", returnStdout: true).trim()
+                            if (gitDiffDetails.contains('github_team')) {
+                                echo "Updating GitHub team for file: ${file}"
+                                sh "java -jar target/githubpermission.jar '${file}'"
+                            } else {
+                                echo "No changes to github_team detected in file: ${file}"
+                            }
                         }
                     } else {
-                        echo 'No changes to github_team detected in YAML files.'
+                        echo 'No changes to permissions/*.yaml files detected.'
                     }
                 }
             }
