@@ -20,7 +20,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.proposal.Main</mainClass>
+                            <mainClass>com.gsoc.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -12,7 +12,7 @@ public class TeamUpdater {
 
     public static void updateTeam(TeamDefinition team) {
         try {
-            GitHub github = new GitHubBuilder().withOAuthToken("my_personal_token","user_id_OR_org_name").build();
+            GitHub github = new GitHubBuilder().withOAuthToken("my_personal_token","Alaurant").build();
             String[] parts = team.getName().split("/");
             String orgName = parts[0];
             String repoName = parts[1];
@@ -24,7 +24,7 @@ public class TeamUpdater {
             if (repo != null && ghTeam != null) {
                 // Adding the team to the repository with push access
                 ghTeam.add(repo);
-                System.out.println("Team: " + team.getTeamName() + "added to repository: " + team.getName());
+                System.out.println("Team '" + team.getTeamName() + "' added to repository: " + team.getName());
             } else {
                 if (repo == null) {
                     System.out.println("Repository not found: " + repoName);

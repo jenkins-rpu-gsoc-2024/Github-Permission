@@ -23,7 +23,7 @@ pipeline {
                             def fileName = it[1]
                             echo "Updating GitHub team for file: ${fileName}"
                             // Pass the filename to the Java/Groovy program
-                            sh "java -jar /need/to/instead.jar '${fileName}'"
+                            sh "java -jar target/githubpermission.jar '${fileName}'"
                         }
                     } else {
                         echo 'No changes to github_team detected in YAML files.'
