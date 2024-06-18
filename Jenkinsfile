@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PERSONAL_TOKEN = credentials('org')
+    }
+
     stages {
         stage('Initialization') {
             steps {
