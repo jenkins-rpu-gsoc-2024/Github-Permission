@@ -1,4 +1,4 @@
-name: Example Workflow
+name: Basic Workflow
 
 on: [push]
 
@@ -8,6 +8,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run a script
-      run: echo Hello, world!
+      run: echo token works
     - name: Use GitHub Token
       run: echo "Using GitHub Token ${{ secrets.PERSONAL_TOKEN }}"
