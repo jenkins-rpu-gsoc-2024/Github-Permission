@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // detect changes in permissions/*.yaml
-                    def gitDiffFiles = sh(script: "git diff --name-only HEAD~1 permissions/*.yaml", returnStdout: true).trim()
+                    def gitDiffFiles = sh(script: "git diff --name-only HEAD~1 permissions/*.YAML", returnStdout: true).trim()
                     if (gitDiffFiles) {
                         echo 'Changes in permissions/*.yaml detected.'
                         // further check whether involves github_team
