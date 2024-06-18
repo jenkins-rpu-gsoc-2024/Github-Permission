@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        PERSONAL_TOKEN = credentials('Alaurant')
-    }
-
     stages {
         stage('Initialization') {
             steps {
@@ -23,7 +19,11 @@ pipeline {
                             def gitDiffDetails = sh(script: "git diff HEAD~1 -- '${file}'", returnStdout: true).trim()
                             if (gitDiffDetails.contains('github_team')) {
                                 echo "Updating GitHub team for file: ${file}"
-                                sh "java -jar target/githubpermission.jar '${file}'"
+                                withCredentials([
+                                    string(credentialsId: 'github-token', variable: 'PERSONAL_TOKEN')
+                                ]) {
+                                    sh "java -jar target/githubpermission.jar '${file}'"
+                                }
                             } else {
                                 echo "No changes to github_team detected in file: ${file}"
                             }
