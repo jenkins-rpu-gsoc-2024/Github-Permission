@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PERSONAL_TOKEN = credentials('org')
+        PERSONAL_TOKEN = credentials('Alaurant')
     }
 
     stages {
