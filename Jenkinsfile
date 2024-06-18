@@ -12,7 +12,6 @@ pipeline {
                 script {
                     // Fetch the changes with details
                     def gitDiffDetails = sh(script: "git diff HEAD~1 -- permissions/*.yaml", returnStdout: true).trim()
-                    echo "Detailed diff:\n${gitDiffDetails}"
 
                     // Use a regex to find files with 'github_team' changes
                     def pattern = ~/permissions\/(\S+\.yaml)(?=[\s\S]*?\bgithub_team\b)/
