@@ -12,7 +12,7 @@ public class TeamUpdater {
 
     public static void updateTeam(TeamDefinition team) {
         try {
-            GitHub github = new GitHubBuilder().withOAuthToken("my_personal_token","Alaurant").build();
+            GitHub github = new GitHubBuilder().withOAuthToken(System.getenv("PERSONAL_TOKEN")).build();
             String[] parts = team.getName().split("/");
             String orgName = parts[0];
             String repoName = parts[1];
