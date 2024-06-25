@@ -28,10 +28,13 @@ public class TeamUpdater {
             GHTeam ghTeam = org.getTeamByName(team.getTeamName());
 
             if (repo != null) {
+
+                
                 
                 if (ghTeam == null) {
                     // Case 1: Team does not exist
                     ghTeam = org.createTeam(team.getTeamName()).privacy(GHTeam.Privacy.CLOSED).create();
+                    updateDevelopers(github, ghTeam, team.getDevelopers(), Operation.ADD);
                     ghTeam.add(repo, GHOrganization.RepositoryRole.custom("push"));
                     System.out.println("Team: '" + team.getTeamName() + "' created and added to repository: " + repoName);
                 
@@ -50,14 +53,7 @@ public class TeamUpdater {
                     toAdd.removeAll(currentMembers);
 
                     if (!toAdd.isEmpty()) {
-                        for (String dev : toAdd) {
-                            try {
-                                ghTeam.add(github.getUser(dev));
-                                System.out.println("Developer '" + dev + "' added to team: " + team.getTeamName());
-                            } catch (IOException e) {
-                                System.out.println("Developer '" + dev + "' not found in GitHub.");
-                            }
-                        }
+                        updateDevelopers(github, ghTeam, toAdd, Operation.ADD);
                     }
 
                     // Case 2.2: developers to remove
@@ -65,14 +61,7 @@ public class TeamUpdater {
                     toRemove.removeAll(team.getDevelopers());
 
                     if (!toRemove.isEmpty()) {
-                        for (String dev : toRemove) {
-                            try{
-                            ghTeam.remove(github.getUser(dev));
-                            System.out.println("Developer '" + dev + "' removed from team: " + team.getTeamName());
-                            } catch (IOException e) {
-                                System.out.println("Developer '" + dev + "' not found in GitHub.");
-                            }
-                        }
+                        updateDevelopers(github, ghTeam, toRemove, Operation.REMOVE);
                     }
                 }
             
@@ -91,5 +80,29 @@ public class TeamUpdater {
             e.printStackTrace();
         }
     }
+
+    public enum Operation {
+        ADD,
+        REMOVE
+    }
+
+    public static void updateDevelopers(GitHub github, GHTeam ghTeam, Set<String> developers, Operation operation) {
+        for (String dev : developers) {
+            try {
+                GHUser user = github.getUser(dev);
+                if (operation == Operation.ADD) {
+                    ghTeam.add(user);
+                    System.out.println("Developer '" + dev + "' added to team: " + ghTeam.getName());
+                } else if (operation == Operation.REMOVE) {
+                    ghTeam.remove(user);
+                    System.out.println("Developer '" + dev + "' removed from team: " + ghTeam.getName());
+                }
+            } catch (IOException e) {
+                System.out.println("Developer '" + dev + "' not found in GitHub or error in updating: " + e.getMessage());
+            }
+        }
+    }
+
+
 
 }

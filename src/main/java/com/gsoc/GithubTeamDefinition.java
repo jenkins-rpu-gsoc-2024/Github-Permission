@@ -2,14 +2,15 @@
 package com.gsoc;
 
 import java.util.List;
+import java.util.Set;
 
 public class GithubTeamDefinition {
 
     private String RepoName = "";
     private String TeamName = "";
-    private List<String> developers;
+    private Set<String> developers;
 
-    public GithubTeamDefinition(String RepoName, String TeamName, List<String> developers) {
+    public GithubTeamDefinition(String RepoName, String TeamName, Set<String> developers) {
         this.RepoName = RepoName;
         this.TeamName = TeamName;
         this.developers = developers;
@@ -26,11 +27,11 @@ public class GithubTeamDefinition {
         this.RepoName = name;
     }
 
-    public List<String> getDevelopers() {
+    public Set<String> getDevelopers() {
         return developers;
     }
 
-    public void setDevelopers(List<String> developers) {
+    public void setDevelopers(Set<String> developers) {
         this.developers = developers;
     }
 

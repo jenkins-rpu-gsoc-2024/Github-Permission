@@ -1,4 +1,5 @@
 com/gsoc/GithubTeamDefinition.class
+com/gsoc/TeamUpdater$Operation.class
 com/gsoc/yamlTeamLoader.class
 com/gsoc/TeamUpdater.class
 com/gsoc/Main.class

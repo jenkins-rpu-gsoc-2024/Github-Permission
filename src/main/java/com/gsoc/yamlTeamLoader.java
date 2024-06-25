@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class yamlTeamLoader {
 
@@ -14,7 +15,7 @@ public class yamlTeamLoader {
             Map<String, Object> data = yaml.load(inputStream);
             String repoPath = "";
             String teamName = "";
-            List<String> developers = null;
+            Set<String>developers = null;
             
             if (data.containsKey("github")) {
                 repoPath = (String) data.get("github");
@@ -26,7 +27,7 @@ public class yamlTeamLoader {
 
             
             if (data.containsKey("developers")){
-                developers = (List<String>) data.get("developers");
+                developers = (Set<String>) data.get("developers");
             }
 
             return new GithubTeamDefinition(repoPath,teamName,developers);
