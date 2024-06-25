@@ -27,51 +27,41 @@ public class TeamUpdater {
             GHRepository repo = org.getRepository(repoName);
             GHTeam ghTeam = org.getTeamByName(team.getTeamName());
 
-            if (repo != null) {
-
+            if (repo != null){
                 
-                
-                if (ghTeam == null) {
+                if (ghTeam == null && team.getDevelopers().size() > 0){
                     // Case 1: Team does not exist
                     ghTeam = org.createTeam(team.getTeamName()).privacy(GHTeam.Privacy.CLOSED).create();
                     updateDevelopers(github, ghTeam, team.getDevelopers(), Operation.ADD);
                     ghTeam.add(repo, GHOrganization.RepositoryRole.custom("push"));
                     System.out.println("Team: '" + team.getTeamName() + "' created and added to repository: " + repoName);
                 
-                }else{ 
+                }
 
-                    // Case 2: Team exists
-                    Set<String> currentMembers = new HashSet<>();
-                    for (GHUser member : ghTeam.listMembers()) {
-                        currentMembers.add(member.getLogin());
-                    }
+                // Case 2: Team exists
+                Set<String> currentMembers = new HashSet<>();
+                for (GHUser member : ghTeam.listMembers()) {
+                    currentMembers.add(member.getLogin());
+                }
+                    
+                // Case 2.1: developers to add
+                Set<String> toAdd = new HashSet<>(team.getDevelopers());
+                toAdd.removeAll(currentMembers);
 
-                    System.out.println("Current members before any operations: " + currentMembers);
+                if (!toAdd.isEmpty()) {
+                    updateDevelopers(github, ghTeam, toAdd, Operation.ADD);
+                }
 
-                    // Case 2.1: developers to add
-                    Set<String> toAdd = new HashSet<>(team.getDevelopers());
-                    toAdd.removeAll(currentMembers);
+                // Case 2.2: developers to remove
+                Set<String> toRemove = new HashSet<>(currentMembers);
+                toRemove.removeAll(team.getDevelopers());
 
-                    if (!toAdd.isEmpty()) {
-                        updateDevelopers(github, ghTeam, toAdd, Operation.ADD);
-                    }
-
-                    // Case 2.2: developers to remove
-                    Set<String> toRemove = new HashSet<>(currentMembers);
-                    toRemove.removeAll(team.getDevelopers());
-
-                    if (!toRemove.isEmpty()) {
-                        updateDevelopers(github, ghTeam, toRemove, Operation.REMOVE);
-                    }
+                if (!toRemove.isEmpty()) {
+                    updateDevelopers(github, ghTeam, toRemove, Operation.REMOVE);
                 }
             
             } else {
-                if (repo == null) {
-                    System.out.println("Repository not found: " + repoName);
-                }
-                if (ghTeam == null) {
-                    System.out.println("Team not found: " + team.getTeamName());
-                }
+                System.out.println("Repository not found: " + repoName);
             }
             
             
