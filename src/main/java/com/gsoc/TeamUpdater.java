@@ -51,8 +51,12 @@ public class TeamUpdater {
 
                     if (!toAdd.isEmpty()) {
                         for (String dev : toAdd) {
-                            ghTeam.add(github.getUser(dev));
-                            System.out.println("Developer '" + dev + "' added to team: " + team.getTeamName());
+                            try {
+                                ghTeam.add(github.getUser(dev));
+                                System.out.println("Developer '" + dev + "' added to team: " + team.getTeamName());
+                            } catch (IOException e) {
+                                System.out.println("Developer '" + dev + "' not found in GitHub.");
+                            }
                         }
                     }
 
@@ -62,8 +66,12 @@ public class TeamUpdater {
 
                     if (!toRemove.isEmpty()) {
                         for (String dev : toRemove) {
+                            try{
                             ghTeam.remove(github.getUser(dev));
                             System.out.println("Developer '" + dev + "' removed from team: " + team.getTeamName());
+                            } catch (IOException e) {
+                                System.out.println("Developer '" + dev + "' not found in GitHub.");
+                            }
                         }
                     }
                 }
