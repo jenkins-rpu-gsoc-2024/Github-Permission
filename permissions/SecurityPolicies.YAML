@@ -10,4 +10,5 @@ cd:
   enabled: true
 developers: &team
   - "TestDitto"
+  - "Alaurant"
 github_team: "Security-devs"

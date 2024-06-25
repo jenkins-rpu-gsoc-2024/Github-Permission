@@ -33,7 +33,7 @@ public class TeamUpdater {
                     // Case 1: Team does not exist
                     ghTeam = org.createTeam(team.getTeamName()).privacy(GHTeam.Privacy.CLOSED).create();
                     ghTeam.add(repo, GHOrganization.RepositoryRole.custom("push"));
-                    System.out.println("Team: '" + team.getTeamName() + "' created and added to repository: " + repo);
+                    System.out.println("Team: '" + team.getTeamName() + "' created and added to repository: " + repoName);
                 
                 }else{ 
 
