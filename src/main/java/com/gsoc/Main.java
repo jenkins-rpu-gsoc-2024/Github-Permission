@@ -11,8 +11,7 @@ public class Main {
         }
 
         String yamlFilePath = args[0];
-        TeamDefinition team = yamlTeamLoader.loadTeam(yamlFilePath);
+        GithubTeamDefinition team = yamlTeamLoader.loadTeam(yamlFilePath);
         TeamUpdater.updateTeam(team);
-
     }
 }
