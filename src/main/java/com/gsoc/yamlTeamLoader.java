@@ -16,7 +16,7 @@ public class yamlTeamLoader {
             Map<String, Object> data = yaml.load(inputStream);
             String repoPath = "";
             String teamName = "";
-            Set<String>developers = null;
+            Set<String> developers = new HashSet<>();
             
             if (data.containsKey("github")) {
                 repoPath = (String) data.get("github");
@@ -27,7 +27,7 @@ public class yamlTeamLoader {
             }
 
             
-            if (data.containsKey("developers")){
+            if (data.containsKey("developers") && data.get("developers") != null) {
                 List<String> devsList = (List<String>) data.get("developers");
                 developers = new HashSet<>(devsList);
             }
