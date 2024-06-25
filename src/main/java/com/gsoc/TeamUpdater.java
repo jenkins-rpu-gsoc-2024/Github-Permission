@@ -56,8 +56,17 @@ public class TeamUpdater {
                 Set<String> toRemove = new HashSet<>(currentMembers);
                 toRemove.removeAll(team.getDevelopers());
 
-                if (!toRemove.isEmpty()) {
-                    updateDevelopers(github, ghTeam, toRemove, Operation.REMOVE);
+                if (!toRemove.isEmpty()){
+                    if  (team.getDevelopers().size() > 0) {
+                        updateDevelopers(github, ghTeam, toRemove, Operation.REMOVE);
+                    }else{
+                        try {
+                            ghTeam.delete();
+                            System.out.println("No developers in the team, team deleted: " + ghTeam.getName());
+                        } catch (IOException e) {
+                            System.err.println("Failed to delete the team: " + ghTeam.getName() + ", error: " + e.getMessage());
+                        }
+                    }
                 }
             
             } else {

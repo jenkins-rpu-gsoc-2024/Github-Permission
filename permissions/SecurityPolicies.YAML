@@ -9,5 +9,4 @@ paths:
 cd:
   enabled: true
 developers: &team
-  - "luolanlaurant"
 github_team: "Security-devs"
