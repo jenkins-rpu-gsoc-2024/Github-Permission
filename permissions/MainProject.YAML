@@ -9,4 +9,7 @@ paths:
 cd:
   enabled: true
 developers: &team
-  - ""
+  - "TestDitto"
+  - "Alaurant"
+  - “luolanlaurant”
+github_team: "Main-devs"

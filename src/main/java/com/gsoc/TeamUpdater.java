@@ -43,6 +43,8 @@ public class TeamUpdater {
                         currentMembers.add(member.getLogin());
                     }
 
+                    System.out.println("Current members before any operations: " + currentMembers);
+
                     // Case 2.1: developers to add
                     Set<String> toAdd = new HashSet<>(team.getDevelopers());
                     toAdd.removeAll(currentMembers);

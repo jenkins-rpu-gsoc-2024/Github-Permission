@@ -26,9 +26,9 @@ pipeline {
                                 withCredentials([
                                     string(credentialsId: 'github-token', variable: 'PERSONAL_TOKEN')
                                 ]) {
-                                    sh "java -jar target/githubpermission.jar '${file}'"
+                                    sh "java -jar target/target/githubpermission-1.0-SNAPSHOT-jar-with-dependencies.jar '${file}'"
                                 }
-                                
+
                             } else {
                                 echo "No changes to the team in: ${file}"
                             }
