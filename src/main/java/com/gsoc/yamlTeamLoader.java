@@ -2,6 +2,7 @@ package com.gsoc;
 import org.yaml.snakeyaml.Yaml;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +28,8 @@ public class yamlTeamLoader {
 
             
             if (data.containsKey("developers")){
-                developers = (Set<String>) data.get("developers");
+                List<String> devsList = (List<String>) data.get("developers");
+                developers = new HashSet<>(devsList);
             }
 
             return new GithubTeamDefinition(repoPath,teamName,developers);
