@@ -2,6 +2,11 @@
 
 ## About
 
+## Features
+
+1. Automatically update teams when a pull request that modifies the YAML file is merged.
+2. Ensuring that the team members correspond with the developers in the YAML file.
+
 ## Managing Permissions
 
 ## Installation
@@ -18,5 +23,5 @@
   
   Build Triggers: "GitHub hook trigger for GITScm polling"
   
-  Credentials: Two credentials are necessary. One is an SSH Username with private key, another is a Secret text with ID is "github-token"
+  Credentials: Two credentials are necessary. One is an SSH Username with the private key, another is a Secret text with an ID "github-token"
   
