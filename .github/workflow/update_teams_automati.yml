@@ -1,0 +1,21 @@
+name: Update teams automati
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # UTC time at 00:00
+
+jobs:
+  update-permissions:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Update all YAML files in permissions directory
+      run: |
+        echo "Updating GitHub teams in permissions files."
+        for file in permissions/*.yaml; do  
+          java -jar jar2.jar
+        done
+      env:
+        GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
