@@ -38,32 +38,5 @@ pipeline {
                     }
                 }
             }
-        }
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application...'
-            }
-        }
-    }
-    post {
-        always {
-            echo 'This is the post-build step to clean up or finalize things.'
-        }
-        success {
-            echo 'Build was successful!'
-        }
-        failure {
-            echo 'Build failed!'
-        }
     }
 }

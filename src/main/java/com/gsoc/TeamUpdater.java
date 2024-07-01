@@ -29,12 +29,20 @@ public class TeamUpdater {
 
             if (repo != null){
                 
-                if (ghTeam == null && team.getDevelopers().size() > 0){
-                    // Case 1: Team does not exist
-                    ghTeam = org.createTeam(team.getTeamName()).privacy(GHTeam.Privacy.CLOSED).create();
-                    updateDevelopers(github, ghTeam, team.getDevelopers(), Operation.ADD);
-                    ghTeam.add(repo, GHOrganization.RepositoryRole.custom("push"));
-                    System.out.println("Team: '" + team.getTeamName() + "' created and added to repository: " + repoName);
+                if (ghTeam == null){
+                    
+                    if (team.getDevelopers().size() <= 0) {
+                        System.out.println("No developers in the team. Team not created.");
+                        return;
+                    
+                    }else{
+                        // Case 1: Team does not exist
+                        ghTeam = org.createTeam(team.getTeamName()).privacy(GHTeam.Privacy.CLOSED).create();
+                        updateDevelopers(github, ghTeam, team.getDevelopers(), Operation.ADD);
+                        ghTeam.add(repo, GHOrganization.RepositoryRole.custom("push"));
+                        System.out.println("Team: '" + team.getTeamName() + "' created and added to repository: " + repoName);
+                    }
+                    
                 
                 }
 
