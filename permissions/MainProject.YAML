@@ -9,5 +9,5 @@ paths:
 cd:
   enabled: true
 developers: &team
-
+  - "Alaurant"
 github_team: "Main-devs"
