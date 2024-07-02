@@ -9,5 +9,6 @@ paths:
 cd:
   enabled: true
 developers: &team
-  - "Alaurant"
+  - "luolanlaurant"
+  - "TestDitto"
 github_team: "admin-devs"
