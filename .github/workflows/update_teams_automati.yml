@@ -17,5 +17,6 @@ jobs:
         for file in permissions/*.yaml; do  
           java -jar jar2.jar
         done
+        echo "GitHub teams updated successfully."
       env:
-        GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+        ORG_TOKEN: ${{ secrets.ORG_TOKEN }}
