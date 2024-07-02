@@ -31,7 +31,10 @@ jobs:
       run: |
         echo "Checking for changes in permissions/*.YAML files..."
         FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- 'permissions/*.YAML')
-        echo "::set-output name=changed::${FILES}"
+        echo "changed=${FILES}" >> $GITHUB_OUTPUT
+        if [[ -z "${FILES}" ]]; then
+          echo "No changes detected in permissions files."
+        fi
       
     - name: Update permissions if necessary
       if: steps.files.outputs.changed != ''
