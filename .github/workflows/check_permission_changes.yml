@@ -31,25 +31,21 @@ jobs:
       run: |
         echo "Checking for changes in permissions/*.YAML files..."
         FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} -- 'permissions/*.YAML')
-        echo "changed=${FILES}" >> $GITHUB_OUTPUT
-        if [[ -z "${FILES}" ]]; then
+        if [[ -z "$FILES" ]]; then
           echo "No changes detected in permissions files."
+        else
+          echo "Changes detected. Processing..."
+          for file in $FILES
+          do
+            echo "Processing changes in $file"
+            GIT_DIFF=$(git diff ${{ github.event.before }} ${{ github.sha }} -- "$file")
+            if [[ "$GIT_DIFF" == *"github_team"* || "$GIT_DIFF" == *"developers"* ]]; then
+              echo "Updating the team in: $file"
+              java -jar target/jar2.jar "$file"
+            else
+              echo "No relevant changes to the team in: $file"
+            fi
+          done
         fi
-      
-    - name: Update teams
-      if: steps.files.outputs.changed != ''
-      run: |
-        echo "Changes detected in permissions files: ${{ steps.files.outputs.changed }}"
-        for file in ${{ steps.files.outputs.changed }}
-        do
-          echo "Processing changes in $file"
-          GIT_DIFF=$(git diff ${{ github.event.before }} ${{ github.sha }} -- $file)
-          if [[ "$GIT_DIFF" == *"github_team"* || "$GIT_DIFF" == *"developers"* ]]; then
-            echo "Updating the team in: $file"
-            java -jar target/jar2.jar $file
-          else
-            echo "No relevant changes to the team in: $file"
-          fi
-        done
       env:
         ORG_TOKEN: ${{ secrets.ORG_TOKEN }}
