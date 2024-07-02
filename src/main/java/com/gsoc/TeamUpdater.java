@@ -17,7 +17,7 @@ public class TeamUpdater {
     
     public static void updateTeam(GithubTeamDefinition team) {
         try {
-            GitHub github = new GitHubBuilder().withOAuthToken(System.getenv("GITHUB_OAUTH")).build();
+            GitHub github = new GitHubBuilder().withOAuthToken(System.getenv("ORG_TOKEN")).build();
             
             String[] parts = team.getName().split("/");
             String orgName = parts[0];

@@ -26,7 +26,7 @@ jobs:
     - name: Build project
       run: mvn clean install
       
-    - name: Check for YAML changes in permissions folder
+    - name: Check for YAML changes
       id: files
       run: |
         echo "Checking for changes in permissions/*.YAML files..."
@@ -36,7 +36,7 @@ jobs:
           echo "No changes detected in permissions files."
         fi
       
-    - name: Update permissions if necessary
+    - name: Update teams
       if: steps.files.outputs.changed != ''
       run: |
         echo "Changes detected in permissions files: ${{ steps.files.outputs.changed }}"
@@ -52,4 +52,4 @@ jobs:
           fi
         done
       env:
-        GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
+        ORG_TOKEN: ${{ secrets.ORG_TOKEN }}
