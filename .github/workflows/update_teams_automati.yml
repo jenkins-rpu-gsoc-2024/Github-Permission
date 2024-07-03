@@ -15,8 +15,7 @@ jobs:
       run: |
         echo "Updating GitHub teams in permissions files."
         for file in permissions/*.yaml; do  
-          java -jar jar2.jar
+          java -jar target/jar2.jar
         done
-        echo "GitHub teams updated successfully."
       env:
         ORG_TOKEN: ${{ secrets.ORG_TOKEN }}
