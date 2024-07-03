@@ -3,10 +3,10 @@ name: Check Permission Changes
 on:
   push:
     branches:
-      - action  # change this to the branch you want to trigger the workflow
+      - main  # change this to the branch you want to trigger the workflow
   pull_request:
     branches:
-      - action # Same as above
+      - main # Same as above
 
 jobs:
   check-permissions:

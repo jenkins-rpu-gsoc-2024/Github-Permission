@@ -2,7 +2,7 @@ name: Update teams automati
 
 on:
   schedule:
-    - cron: '0 0 * * *' # UTC time at 00:00
+    - cron: '40 11 * * *' # UTC time at 11:40
 
 jobs:
   update-permissions:
@@ -15,7 +15,7 @@ jobs:
       run: |
         echo "Updating GitHub teams in permissions files."
         for file in permissions/*.yaml; do  
-          java -jar jar2.jar
+          java -jar target/jar2.jar
         done
         echo "GitHub teams updated successfully."
       env:
