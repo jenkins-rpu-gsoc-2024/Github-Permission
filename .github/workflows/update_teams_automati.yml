@@ -26,7 +26,7 @@ jobs:
       run: |
         echo "Updating GitHub teams in permissions files."
         for file in permissions/*.yml; do  
-          file="${filepath#permissions/}"
+          file="${file#permissions/}"
           java -jar target/jar2.jar "$file"
         done
       env:
