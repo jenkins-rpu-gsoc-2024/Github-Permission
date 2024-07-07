@@ -1,4 +1,4 @@
-package com.gsoc;
+package com.gsoc.teamsync;
 
 import java.io.IOException;
 import java.util.HashSet;

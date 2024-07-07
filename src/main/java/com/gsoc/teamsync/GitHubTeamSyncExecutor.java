@@ -1,6 +1,7 @@
-package com.gsoc;
+package com.gsoc.teamsync;
 
-public class Main {
+public class GitHubTeamSyncExecutor {
+
     public static void main(String[] args) {
         // TeamDefinition team = yamlTeamLoader.loadTeam("permissions/Test.YAML");
         // TeamUpdater.updateTeam(team);
@@ -11,7 +12,7 @@ public class Main {
         }
 
         String yamlFilePath = args[0];
-        GithubTeamDefinition team = yamlTeamLoader.loadTeam(yamlFilePath);
+        GithubTeamDefinition team = YAMLTeamLoader.loadTeam(yamlFilePath);
         TeamUpdater.updateTeam(team);
     }
 }

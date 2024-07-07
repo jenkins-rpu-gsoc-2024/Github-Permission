@@ -1,18 +1,37 @@
-package com.gsoc;
+package com.gsoc.teamsync;
 import org.yaml.snakeyaml.Yaml;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
-public class yamlTeamLoader {
+public class YAMLTeamLoader {
 
     public static GithubTeamDefinition loadTeam(String filePath) {
-        Yaml yaml = new Yaml();
+        Path basePath = Paths.get("permissions").toAbsolutePath().normalize();
+        Path resolvedPath = basePath.resolve(filePath).normalize();
 
-        try (InputStream inputStream = new FileInputStream(filePath)) {
+        if (!resolvedPath.startsWith(basePath)) {
+            throw new SecurityException("Attempted path traversal out of allowed directory");
+        }
+
+        if (!resolvedPath.toString().endsWith(".yml")) {
+            throw new SecurityException("Invalid file type");
+        }
+
+        if (!Files.exists(resolvedPath)) {
+            throw new RuntimeException("File does not exist: " + resolvedPath);
+        }
+
+        // Load the file
+        try (FileInputStream inputStream = new FileInputStream(resolvedPath.toFile())) {
+
+            Yaml yaml = new Yaml();
+
             Map<String, Object> data = yaml.load(inputStream);
             String repoPath = "";
             String teamName = "";
@@ -33,10 +52,13 @@ public class yamlTeamLoader {
             }
 
             return new GithubTeamDefinition(repoPath,teamName,developers);
+            
 
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to load: " + filePath, e);
+            throw new RuntimeException("Failed to load: " + resolvedPath, e);
         }
+
+        
     }
 }

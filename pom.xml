@@ -29,14 +29,12 @@
                             </descriptors>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.gsoc.Others</mainClass>
+                                    <mainClass>com.gsoc.other.Others</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
                                 <descriptorRef>jar-with-dependencies</descriptorRef>
                             </descriptorRefs>
-                            <finalName>jar1</finalName>
-                            <appendAssemblyId>false</appendAssemblyId>
                         </configuration>
                     </execution>
                     <execution>
@@ -51,7 +49,7 @@
                             </descriptors>
                             <archive>
                                 <manifest>
-                                    <mainClass>com.gsoc.Main</mainClass>
+                                    <mainClass>com.gsoc.teamsync.GitHubTeamSyncExecutor</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

@@ -9,10 +9,7 @@
             <directory>target/classes/</directory>
             <outputDirectory>/</outputDirectory>
             <excludes>
-                <exclude>com/gsoc/GithubTeamDefinition.class</exclude>
-                <exclude>com/gsoc/Main.class</exclude>
-                <exclude>com/gsoc/yamlTeamLoader.class</exclude>
-                <exclude>com/gsoc/TeamUpdater.class</exclude>
+                <exclude>com/gsoc/*.class</exclude>
             </excludes>
         </fileSet>
     </fileSets>

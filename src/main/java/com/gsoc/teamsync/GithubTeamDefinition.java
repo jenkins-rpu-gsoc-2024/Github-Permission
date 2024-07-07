@@ -1,7 +1,5 @@
-// Same as RPU at most part, but added a new field for team name
-package com.gsoc;
+package com.gsoc.teamsync;
 
-import java.util.List;
 import java.util.Set;
 
 public class GithubTeamDefinition {
