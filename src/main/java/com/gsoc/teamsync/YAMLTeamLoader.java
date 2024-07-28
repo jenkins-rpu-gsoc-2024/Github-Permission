@@ -23,6 +23,10 @@ public class YAMLTeamLoader {
 
     private static Path resolveFilePath(String filePath) {
         Path basePath = Paths.get("permissions").toAbsolutePath().normalize();
+        // Remove the prefix for GitHub actions
+        if (filePath.startsWith("permissions/")) {
+            filePath = filePath.substring("permissions/".length());
+        }
         Path resolvedPath = basePath.resolve(filePath).normalize();
 
         if (!resolvedPath.startsWith(basePath)) {
