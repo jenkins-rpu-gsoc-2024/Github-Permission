@@ -4,6 +4,11 @@
 
 `GitHub-Permission` is a tool designed to automate the management of GitHub permissions within the Jenkinsci organization's Repository Permission Updater (RPU). Operating independently, yet complementing the RPU, this tool leverages an "as-code" approach with YAML configurations to dynamically define and update permissions, ensuring a streamlined and efficient management process.
 
+## Links
+You can find the proposal for this project [here](https://docs.google.com/document/d/17QfpBgqGglhTTS_VLv5PKxXn-UYLlTq14GPwYJZ79Zg/edit?usp=sharing)
+
+The Pull Request can be found [here](https://github.com/jenkins-infra/repository-permissions-updater/pull/3998)
+
 ## Features
 
 1. **Automated Team Updates**: Automatically updates teams when a pull request that modifies a YAML file is merged.
@@ -35,7 +40,7 @@ The project is configured to generate two distinct JAR files from the same codeb
    - Adjust the `pom.xml` file to guide Maven on how to separately build each JAR with specific requirements.
 
 2. **Set up Assembly Files**:
-   - Utilize assembly definitions to specify what to include and exclude in each JAR, ensuring they are equipped with necessary resources to function independently.
+   - Utilize assembly definitions to specify what to include and exclude in each JAR, ensuring they are equipped with the necessary resources to function independently.
 
 3. **Run the Project**:
    ```bash
