@@ -12,7 +12,7 @@ public class TeamSyncExecutor {
     }
 
     public static void main(String[] args) {
-        GitHubService gitHubService = new GitHubServiceImpl(System.getenv("ORG_TOKEN"));
+        GitHubService gitHubService = new GitHubServiceImpl(System.getenv("ORG_TOKEN")); // change your repo secret name here
         TeamUpdater teamUpdater = new TeamUpdater(gitHubService);
         TeamSyncExecutor executor = new TeamSyncExecutor(teamUpdater);
 

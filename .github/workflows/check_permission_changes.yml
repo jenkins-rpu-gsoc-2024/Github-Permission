@@ -17,14 +17,19 @@ jobs:
       with:
           fetch-depth: 0
       
-    - name: Set up JDK 17
+    - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: '21'
         distribution: 'adopt'
         
-    - name: Build project
-      run: mvn clean install
+    - name: Cache Maven packages
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-m2
       
     - name: Check for yml changes
       id: files
