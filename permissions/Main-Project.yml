@@ -1,0 +1,17 @@
+name: MainProject
+github: jenkins-rpu-gsoc-2024/MainProject
+issues:
+  - github: jenkins-rpu-gsoc-2024/MainProject
+paths:
+  - ''
+cd:
+    enabled: true
+developers:
+  - ldap: TestDitto
+    github: ''
+  - ldap: Alaurant
+    github: Alaurant
+repository_team: MainProject Developers
+additional_github_teams:
+  - name: Main-devs
+    role: null

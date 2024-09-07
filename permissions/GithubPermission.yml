@@ -11,5 +11,4 @@ cd:
 developers: &team
   - "TestDitto"
   - "luolanlaurant"
-  - "Alaurant"
-github_team:
+repository_team: Github-Permission Developers

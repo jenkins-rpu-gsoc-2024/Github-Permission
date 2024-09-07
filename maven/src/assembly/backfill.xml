@@ -1,5 +1,5 @@
 <assembly>
-    <id>assembly-jar2</id>
+    <id>assembly-jar3</id>
     <formats>
         <format>jar</format>
     </formats>
@@ -9,7 +9,7 @@
             <directory>target/classes/</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>com/gsoc/teamsync/*.class</include>
+                <include>com/gsoc/backfill/*.class</include>
             </includes>
         </fileSet>
     </fileSets>
