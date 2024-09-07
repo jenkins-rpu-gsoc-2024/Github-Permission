@@ -89,70 +89,52 @@ public class WriteToYAML {
     }
 
     public static void writeSpecialTeamToYAML(SpecialYamlDefinition specialTeam, String filePath) throws IOException {
+    
         
-        LoadSettings settings = LoadSettings.builder().build();
-        Load load = new Load(settings);
-
-        try (InputStream inputStream = new FileInputStream(filePath)) {
-            Map<String, Object> data = (Map<String, Object>) load.loadFromInputStream(inputStream);
-            DumpSettings dumpSettings = DumpSettings.builder().setDefaultFlowStyle(FlowStyle.BLOCK).build();
-            Dump dump = new Dump(dumpSettings);
-            try (OutputStream outputStream = new FileOutputStream(filePath)) {
-                String output = dump.dumpToString(data);
-                outputStream.write(output.getBytes()); // 将修改后的数据写回文件
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        Yaml yaml = new Yaml();
+        Map<String, Object> existingData;
+        
+        // 1. Read the existing YAML file content
+        try (FileInputStream inputStream = new FileInputStream(filePath)) {
+            existingData = yaml.load(inputStream);
         }
+    
+        if (existingData == null) {
+            existingData = new LinkedHashMap<>();
+        }
+        
+        ensureQuotedStrings(existingData);
+        
+        // 2. Update the developers field
+        List<Map<String, Object>> developerDetails = new ArrayList<>();
+        for (DeveloperInfo developer : specialTeam.getDevelopers()) {
+            Map<String, Object> devMap = new LinkedHashMap<>();  // Use LinkedHashMap to maintain order
+            devMap.put("ldap", developer.getLdapUsername() != null ? new QuotedString(developer.getLdapUsername())  : new QuotedString(""));
+            devMap.put("github", developer.getGithubUsername() != null ? new QuotedString(developer.getGithubUsername()) : new QuotedString("")); 
+            developerDetails.add(devMap);
+        }
+    
+        existingData.put("developers", developerDetails);
+    
+        // 3. Set up YAML serialization options
 
-        
-        // Yaml yaml = new Yaml();
-        // Map<String, Object> existingData;
-        
-        // // 1. Read the existing YAML file content
-        // try (FileInputStream inputStream = new FileInputStream(filePath)) {
-        //     existingData = yaml.load(inputStream);
-        // }
+        DumperOptions options = new DumperOptions();
+        options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
+        options.setPrettyFlow(true);
+        options.setIndent(4); 
+        options.setIndicatorIndent(2);
     
-        // if (existingData == null) {
-        //     existingData = new LinkedHashMap<>();
-        // }
-        
-        // ensureQuotedStrings(existingData);
-        
-        // // 2. Update the developers field
-        // List<Map<String, Object>> developerDetails = new ArrayList<>();
-        // for (DeveloperInfo developer : specialTeam.getDevelopers()) {
-        //     Map<String, Object> devMap = new LinkedHashMap<>();  // Use LinkedHashMap to maintain order
-        //     devMap.put("ldap", developer.getLdapUsername() != null ? new QuotedString(developer.getLdapUsername())  : new QuotedString(""));
-        //     devMap.put("github", developer.getGithubUsername() != null ? new QuotedString(developer.getGithubUsername()) : new QuotedString("")); 
-        //     developerDetails.add(devMap);
-        // }
-    
-        // existingData.put("developers", developerDetails);
-    
-        // // 3. Set up YAML serialization options
+        MyRepresenter representer = new MyRepresenter(options);
 
-        // DumperOptions options = new DumperOptions();
-        // options.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
-        // options.setPrettyFlow(true);
-        // options.setIndent(4); 
-        // options.setIndicatorIndent(2);
-    
-        // MyRepresenter representer = new MyRepresenter(options);
-
-        // representer.getPropertyUtils().setSkipMissingProperties(true);
+        representer.getPropertyUtils().setSkipMissingProperties(true);
     
 
-        // Yaml newYaml = new Yaml(representer, options);
+        Yaml newYaml = new Yaml(representer, options);
     
-        // // 4. Write the updated content back to the YAML file
-        // try (FileWriter writer = new FileWriter(filePath)) {
-        //     newYaml.dump(existingData, writer);
-        // }
+        // 4. Write the updated content back to the YAML file
+        try (FileWriter writer = new FileWriter(filePath)) {
+            newYaml.dump(existingData, writer);
+        }
     } 
 
     private static void ensureQuotedStrings(Map<String, Object> data) {

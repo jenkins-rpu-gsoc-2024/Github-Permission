@@ -2,11 +2,15 @@ name: "Github-Permission Developers"
 readme: "This is a test file for the permissions"
 github: &GH "jenkinsci/agc-app-upload-plugin"
 cd:
-  enabled: true
+    enabled: true
 issues:
   - github: *GH
   - jira: '17451'  # additional-identities-plugin
     report: false
 developers:
-  - "TestDitto"
-  - "Alaurant"
+  - ldap: "TestDitto"
+    github: "TestDitto"
+  - ldap: "Alaurant"
+    github: ""
+  - ldap: ""
+    github: "luolanlaurant"
